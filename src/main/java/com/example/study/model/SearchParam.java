@@ -10,6 +10,11 @@ public class SearchParam {
 
   }
 
+  @Override
+  public String toString() {
+    return account + ", " + email + ", " + page;
+  }
+
   public String getAccount() {
     return account;
   }
