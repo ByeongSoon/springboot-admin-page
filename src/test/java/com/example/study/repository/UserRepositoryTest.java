@@ -21,7 +21,7 @@ public class UserRepositoryTest extends StudyApplicationTests {
   public void create() {
     // String sql = "insert into user (%s, %s, %d) value( account, email, age); 예전방식
     User user = new User();
-    user.setAccount("TestUser04");
+    user.setAccount("TestUser01");
     user.setEmail("TestUser04@gmail.com");
     user.setPhoneNumber("010-1111-3333");
     user.setCreatedAt(LocalDateTime.now());
@@ -33,7 +33,7 @@ public class UserRepositoryTest extends StudyApplicationTests {
 
   @Test
   public void read() {
-    Optional<User> user = userRepository.findById(2L);
+    Optional<User> user = userRepository.findById(7L);
 
     user.ifPresent(selectUser -> {
       System.out.println("user : " + selectUser);
@@ -45,10 +45,10 @@ public class UserRepositoryTest extends StudyApplicationTests {
   // Test 후에 RollBack을 해서 테이블에 영향을 주지않
   @Transactional
   public void update() {
-    Optional<User> user = userRepository.findById(3L);
+    Optional<User> user = userRepository.findById(7L);
 
     user.ifPresent(selectUser -> {
-      selectUser.setAccount("PPPP");
+      selectUser.setAccount("jang");
       selectUser.setUpdatedAt(LocalDateTime.now());
       selectUser.setUpdatedBy("update method()");
 
@@ -60,7 +60,7 @@ public class UserRepositoryTest extends StudyApplicationTests {
   @Test
   @Transactional
   public void delete() {
-    Optional<User> user = userRepository.findById(3L);
+    Optional<User> user = userRepository.findById(7L);
 
     /*
     Assert.assertTrue(user.isPresent()); // true
