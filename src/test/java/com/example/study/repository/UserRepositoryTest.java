@@ -4,6 +4,7 @@ package com.example.study.repository;
 import com.example.study.StudyApplicationTests;
 import com.example.study.model.entity.Item;
 import com.example.study.model.entity.User;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,32 +21,35 @@ public class UserRepositoryTest extends StudyApplicationTests {
 
   @Test
   public void create() {
-    // String sql = "insert into user (%s, %s, %d) value( account, email, age); 예전방식
+    String account = "Test01";
+    String password = "Test01";
+    String status = "REGISTERED";
+    String email = "Test01@gmail.com";
+    String phoneNumber = "010-1111-2222";
+    LocalDateTime registeredAt = LocalDateTime.now();
+    LocalDateTime createdAt = LocalDateTime.now();
+    String createdBy = "AdminServer";
+
     User user = new User();
-    user.setAccount("TestUser01");
-    user.setEmail("TestUser04@gmail.com");
-    user.setPhoneNumber("010-1111-3333");
-    user.setCreatedAt(LocalDateTime.now());
-    user.setCreatedBy("TestUser4");
+    user.setAccount(account);
+    user.setPassword(password);
+    user.setStatus(status);
+    user.setEmail(email);
+    user.setPhoneNumber(phoneNumber);
+    user.setRegisteredAt(registeredAt);
+    user.setCreatedAt(createdAt);
+    user.setCreatedBy(createdBy);
 
     User newUser = userRepository.save(user);
-    System.out.println("newUser : " + newUser);
+    Assertions.assertNotNull(newUser);
+
   }
 
   @Test
   @Transactional
   public void read() {
-
-    // select * from user where id = ?
-//    Optional<User> user = userRepository.findById(7L);
-    Optional<User> user = userRepository.findByAccount("TestUser01");
-
-    user.ifPresent(selectUser -> {
-      selectUser.getOrderDetailList().stream().forEach(detail -> {
-        Item item = detail.getItem();
-        System.out.println(item);
-      });
-    });
+    User user = userRepository.findFirstByPhoneNumberOrderByIdDesc("010-1111-2222");
+    Assertions.assertNotNull(user);
   }
 
   @Test
@@ -69,9 +73,7 @@ public class UserRepositoryTest extends StudyApplicationTests {
   public void delete() {
     Optional<User> user = userRepository.findById(7L);
 
-    /*
-    Assert.assertTrue(user.isPresent()); // true
-     */
+    Assertions.assertTrue(user.isPresent());
 
     user.ifPresent(selectUser -> {
       userRepository.delete(selectUser);
@@ -80,9 +82,7 @@ public class UserRepositoryTest extends StudyApplicationTests {
     // 정상적으로 삭제가 되었는지 확인
     Optional<User> deleteUser = userRepository.findById(3L);
 
-    /*
-    Assert.assertFalse(deleteUser.isPresent()); // false
-     */
+    Assertions.assertFalse(deleteUser.isPresent());
 
     if (deleteUser.isPresent()) {
       System.out.println("데이터 존재" + deleteUser.get());

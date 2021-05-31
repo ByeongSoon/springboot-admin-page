@@ -26,7 +26,7 @@ public class Partner {
 
   private String address;
 
-  private String callNumber;
+  private String callCenter;
 
   private String partnerNumber;
 
@@ -45,5 +45,7 @@ public class Partner {
   private LocalDateTime updatedAt;
 
   private String updatedBy;
+
+  private Long categoryId;
 
 }

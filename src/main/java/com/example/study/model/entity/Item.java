@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@ToString(exclude = "orderDetailList")
 public class Item {
 
   @Id
@@ -42,5 +41,7 @@ public class Item {
   private LocalDateTime updatedAt;
 
   private String updatedBy;
+
+  private Long partnerId;
 
 }

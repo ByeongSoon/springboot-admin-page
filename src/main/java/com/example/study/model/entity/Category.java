@@ -24,12 +24,12 @@ public class Category {
 
   private String title;
 
-  private LocalDateTime createAt;
+  private LocalDateTime createdAt;
 
-  private String createBy;
+  private String createdBy;
 
-  private LocalDateTime updateAt;
+  private LocalDateTime updatedAt;
 
-  private String updateBy;
+  private String updatedBy;
 
 }
