@@ -30,6 +30,7 @@ public class UserRepositoryTest extends StudyApplicationTests {
     LocalDateTime createdAt = LocalDateTime.now();
     String createdBy = "AdminServer";
 
+
     User user = new User();
     user.setAccount(account);
     user.setPassword(password);
@@ -40,6 +41,14 @@ public class UserRepositoryTest extends StudyApplicationTests {
 //    user.setCreatedAt(createdAt);
 //    user.setCreatedBy(createdBy);
 
+    // lombok Builder
+    User u = User.builder()
+        .account(account)
+        .password(password)
+        .status(status)
+        .email(email)
+        .build();
+
     User newUser = userRepository.save(user);
     Assertions.assertNotNull(newUser);
 
@@ -49,6 +58,14 @@ public class UserRepositoryTest extends StudyApplicationTests {
   @Transactional
   public void read() {
     User user = userRepository.findFirstByPhoneNumberOrderByIdDesc("010-1111-2222");
+
+    // lombok Chaining
+    user
+        .setEmail("")
+        .setPhoneNumber("")
+        .setStatus("");
+
+    User u = new User().setAccount("").setEmail("").setPassword("");
 
     if (user != null) {
       user.getOrderGroupList().stream().forEach(orderGroup -> {
