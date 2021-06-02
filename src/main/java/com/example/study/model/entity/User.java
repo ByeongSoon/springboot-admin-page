@@ -12,13 +12,13 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@EntityListeners(AuditingEntityListener.class)
+@Entity // == table
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Accessors(chain = true)
-@Entity // == table
-@EntityListeners(AuditingEntityListener.class)
 @ToString(exclude = {"orderGroupList"})
 public class User {
 
