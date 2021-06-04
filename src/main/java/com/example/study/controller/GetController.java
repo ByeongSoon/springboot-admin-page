@@ -1,6 +1,7 @@
 package com.example.study.controller;
 
 import com.example.study.model.SearchParam;
+import com.example.study.model.network.Header;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -33,6 +34,12 @@ public class GetController {
 
     // { "account" : "", "email" : "", "page" : 0 } 따로 설정하지 않아도 jackson 라이브러리로 인해서 JSON 형식으로 반환
     return searchParam;
+  }
+
+  @GetMapping("/header")
+  public Header getHeader() {
+    // { "resultCode" : "OK", "description" : "OK" }
+    return Header.builder().resultCode("OK").description("OK").build();
   }
 
 }
