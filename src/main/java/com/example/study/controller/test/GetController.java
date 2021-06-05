@@ -1,4 +1,4 @@
-package com.example.study.controller;
+package com.example.study.controller.test;
 
 import com.example.study.model.SearchParam;
 import com.example.study.model.network.Header;

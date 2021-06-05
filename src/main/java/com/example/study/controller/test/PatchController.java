@@ -1,17 +1,16 @@
-package com.example.study.controller;
+package com.example.study.controller.test;
 
 import com.example.study.model.SearchParam;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api")
-public class PutController {
+public class PatchController {
 
-  @PutMapping("/putMethod")
-  public SearchParam putMethod(@RequestBody SearchParam searchParam) {
+  @RequestMapping("/patchMethod")
+  public SearchParam patchMethod(@RequestBody SearchParam searchParam) {
     return searchParam;
   }
 
