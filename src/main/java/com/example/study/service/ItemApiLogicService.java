@@ -9,8 +9,7 @@ import com.example.study.repository.ItemRepository;
 import com.example.study.repository.PartnerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
+import java.time.LocalDateTime;
 
 import static com.example.study.model.network.Header.OK;
 
@@ -35,13 +34,14 @@ public class ItemApiLogicService implements CrudInterface<ItemApiRequest, ItemAp
         .content(body.getContent())
         .price(body.getPrice())
         .brandName(body.getBrandName())
-        .registeredAt(body.getRegisteredAt())
+        .registeredAt(LocalDateTime.now())
         .partner(partnerRepository.getOne(body.getPartnerId()))
         .build();
 
-    Item newItem = itemRepository.save(item);
+//    Item newItem = itemRepository.save(item);
+//    return response(newItem);
 
-    return response(newItem);
+    return response(itemRepository.save(item));
 
   }
 
@@ -105,7 +105,7 @@ public class ItemApiLogicService implements CrudInterface<ItemApiRequest, ItemAp
         .partnerId(item.getPartner().getId())
         .build();
 
-    return OK(body);
+    return Header.OK(body);
 
   }
 
