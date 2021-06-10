@@ -36,7 +36,7 @@ public class OrderGroupApiLogicService implements CrudInterface<OrderGroupApiReq
         .totalQuantity(body.getTotalQuantity())
         .orderAt(LocalDateTime.now())
         .arrivalDate(LocalDateTime.now().plusDays(2))
-        .user(userRepository.getOne(body.getId()))
+        .user(userRepository.getOne(body.getUserId()))
         .build();
 
     return response(orderGroupRepository.save(orderGroup));
@@ -45,17 +45,48 @@ public class OrderGroupApiLogicService implements CrudInterface<OrderGroupApiReq
 
   @Override
   public Header<OrderGroupApiResponse> read(Long id) {
-    return null;
+
+    return orderGroupRepository.findById(id)
+        .map( orderGroup -> response(orderGroup))
+        .orElseGet(() -> Header.ERROR("데이터 없음"));
+
   }
 
   @Override
   public Header<OrderGroupApiResponse> update(Header<OrderGroupApiRequest> request) {
-    return null;
+
+    OrderGroupApiRequest orderGroupApiRequest = request.getData();
+
+    return orderGroupRepository.findById(orderGroupApiRequest.getId())
+        .map( orderGroup -> {
+          orderGroup
+              .setStatus(orderGroupApiRequest.getStatus())
+              .setOrderType(orderGroupApiRequest.getOrderType())
+              .setRevAddress(orderGroupApiRequest.getRevAddress())
+              .setRevName(orderGroupApiRequest.getRevName())
+              .setPaymentType(orderGroupApiRequest.getPaymentType())
+              .setTotalPrice(orderGroupApiRequest.getTotalPrice())
+              .setTotalQuantity(orderGroupApiRequest.getTotalQuantity())
+              .setOrderAt(orderGroupApiRequest.getOrderAt())
+              .setRevAddress(orderGroupApiRequest.getRevAddress())
+          ;
+          return orderGroup;
+        })
+        .map( orderGroup -> orderGroupRepository.save(orderGroup))
+        .map( updateOrderGroup -> response(updateOrderGroup))
+        .orElseGet( () -> Header.ERROR("데이터 없음"));
   }
 
   @Override
   public Header delete(Long id) {
-    return null;
+
+    return orderGroupRepository.findById(id)
+        .map( orderGroup -> {
+          orderGroupRepository.delete(orderGroup);
+          return Header.OK();
+        })
+        .orElseGet( () -> Header.ERROR("데이터 없음"));
+
   }
 
   private Header<OrderGroupApiResponse> response(OrderGroup orderGroup) {
