@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 public class OrderDetailRepositoryTest extends StudyApplicationTests {
 
@@ -37,6 +38,10 @@ public class OrderDetailRepositoryTest extends StudyApplicationTests {
 
   @Test
   public void read() {
+
+    Optional<OrderDetail> newOrderDetail = orderDetailRepository.findById(2L);
+
+    Assertions.assertNotNull(newOrderDetail);
 
   }
 
