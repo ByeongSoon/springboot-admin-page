@@ -45,7 +45,8 @@ public class OrderGroupApiLogicService implements CrudInterface<OrderGroupApiReq
   public Header<OrderGroupApiResponse> read(Long id) {
 
     return orderGroupRepository.findById(id)
-        .map( orderGroup -> response(orderGroup))
+//        .map( orderGroup -> response(orderGroup) )
+        .map(this::response) // 내 클래스 안의 response()를 호출
         .orElseGet(() -> Header.ERROR("데이터 없음"));
 
   }
@@ -53,25 +54,26 @@ public class OrderGroupApiLogicService implements CrudInterface<OrderGroupApiReq
   @Override
   public Header<OrderGroupApiResponse> update(Header<OrderGroupApiRequest> request) {
 
-    OrderGroupApiRequest orderGroupApiRequest = request.getData();
+    OrderGroupApiRequest body = request.getData();
 
-    return orderGroupRepository.findById(orderGroupApiRequest.getId())
+    return orderGroupRepository.findById(body.getId())
         .map( orderGroup -> {
           orderGroup
-              .setStatus(orderGroupApiRequest.getStatus())
-              .setOrderType(orderGroupApiRequest.getOrderType())
-              .setRevAddress(orderGroupApiRequest.getRevAddress())
-              .setRevName(orderGroupApiRequest.getRevName())
-              .setPaymentType(orderGroupApiRequest.getPaymentType())
-              .setTotalPrice(orderGroupApiRequest.getTotalPrice())
-              .setTotalQuantity(orderGroupApiRequest.getTotalQuantity())
-              .setOrderAt(orderGroupApiRequest.getOrderAt())
-              .setRevAddress(orderGroupApiRequest.getRevAddress())
+              .setStatus(body.getStatus())
+              .setOrderType(body.getOrderType())
+              .setRevAddress(body.getRevAddress())
+              .setRevName(body.getRevName())
+              .setPaymentType(body.getPaymentType())
+              .setTotalPrice(body.getTotalPrice())
+              .setTotalQuantity(body.getTotalQuantity())
+              .setOrderAt(body.getOrderAt())
+              .setRevAddress(body.getRevAddress())
           ;
           return orderGroup;
         })
         .map( orderGroup -> orderGroupRepository.save(orderGroup))
-        .map( updateOrderGroup -> response(updateOrderGroup))
+//        .map( updateOrderGroup -> response(updateOrderGroup))
+        .map(this::response)
         .orElseGet( () -> Header.ERROR("데이터 없음"));
   }
 
