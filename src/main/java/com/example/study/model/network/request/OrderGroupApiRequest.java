@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -31,6 +30,8 @@ public class OrderGroupApiRequest {
   private Integer totalQuantity;
 
   private LocalDateTime OrderAt;
+
+  private LocalDateTime arrivalDate;
 
   private Long userId;
 

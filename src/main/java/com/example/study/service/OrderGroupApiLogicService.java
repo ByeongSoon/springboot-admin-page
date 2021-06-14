@@ -9,7 +9,6 @@ import com.example.study.repository.OrderGroupRepository;
 import com.example.study.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 
 @Service
@@ -35,7 +34,6 @@ public class OrderGroupApiLogicService implements CrudInterface<OrderGroupApiReq
         .totalPrice(body.getTotalPrice())
         .totalQuantity(body.getTotalQuantity())
         .orderAt(LocalDateTime.now())
-        .arrivalDate(LocalDateTime.now().plusDays(2))
         .user(userRepository.getOne(body.getUserId()))
         .build();
 
