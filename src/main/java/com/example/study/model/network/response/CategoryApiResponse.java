@@ -1,4 +1,4 @@
-package com.example.study.model.network.request;
+package com.example.study.model.network.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CatsgoryApiRequest {
+public class CategoryApiResponse {
 
   private Long id;
 

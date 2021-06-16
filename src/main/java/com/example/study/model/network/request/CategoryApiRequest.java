@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CatsgoryApiRequest {
+public class CategoryApiRequest {
 
   private Long id;
 
