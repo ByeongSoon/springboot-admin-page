@@ -13,6 +13,9 @@ public class PartnerRepositoryTest extends StudyApplicationTests {
   @Autowired
   private PartnerRepository partnerRepository;
 
+  @Autowired
+  private CategoryRepository categoryRepository;
+
   @Test
   public void create() {
 
@@ -40,6 +43,7 @@ public class PartnerRepositoryTest extends StudyApplicationTests {
     partner.setCreatedAt(createdAt);
     partner.setCreatedBy(createdBy);
 //    partner.setCategoryId(categoryId);
+    partner.setCategory(categoryRepository.getOne(categoryId));
 
     Partner newPartner = partnerRepository.save(partner);
     Assertions.assertNotNull(newPartner);
