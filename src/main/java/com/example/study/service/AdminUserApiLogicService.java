@@ -85,7 +85,7 @@ public class AdminUserApiLogicService implements CrudInterface<AdminUserApiReque
 
   private Header<AdminUserApiResponse> response(AdminUser adminUser) {
 
-    AdminUserApiResponse adminUserApiResponse = AdminUserApiResponse.builder()
+    AdminUserApiResponse body = AdminUserApiResponse.builder()
         .account(adminUser.getAccount())
         .password(adminUser.getPassword())
         .status(adminUser.getStatus())
@@ -97,6 +97,6 @@ public class AdminUserApiLogicService implements CrudInterface<AdminUserApiReque
         .unregisteredAt(adminUser.getUnregisteredAt())
         .build();
 
-    return Header.OK(adminUserApiResponse);
+    return Header.OK(body);
   }
 }
