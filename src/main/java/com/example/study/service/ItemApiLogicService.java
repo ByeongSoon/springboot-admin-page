@@ -11,8 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 
-import static com.example.study.model.network.Header.OK;
-
 @Service
 public class ItemApiLogicService implements CrudInterface<ItemApiRequest, ItemApiResponse> {
 
@@ -91,6 +89,8 @@ public class ItemApiLogicService implements CrudInterface<ItemApiRequest, ItemAp
   }
 
   private Header<ItemApiResponse> response(Item item) {
+
+    String statusTitle = item.getStatus().getTitle(); // 한글로 된 title 불러오는 법
 
     ItemApiResponse body = ItemApiResponse.builder()
         .id(item.getId())
