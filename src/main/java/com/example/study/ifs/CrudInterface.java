@@ -4,7 +4,7 @@ import com.example.study.model.network.Header;
 
 public interface CrudInterface<Req, Res> {
 
-  Header<Res> create(Header<Req> request); // todo request object 추
+  Header<Res> create(Header<Req> request); // todo request object 추가 
 
   Header<Res> read(Long id);
 
