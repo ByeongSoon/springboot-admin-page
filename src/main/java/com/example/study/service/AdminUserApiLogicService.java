@@ -12,10 +12,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 
 @Service
-public class AdminUserApiLogicService implements CrudInterface<AdminUserApiRequest, AdminUserApiResponse> {
-
-  @Autowired
-  private AdminUserRepository adminUserRepository;
+public class AdminUserApiLogicService extends BaseService<AdminUserApiRequest, AdminUserApiResponse,AdminUser> {
 
   @Override
   public Header<AdminUserApiResponse> create(Header<AdminUserApiRequest> request) {
@@ -30,14 +27,14 @@ public class AdminUserApiLogicService implements CrudInterface<AdminUserApiReque
         .registeredAt(LocalDateTime.now())
         .build();
 
-    return response(adminUserRepository.save(adminUser));
+    return response(baseRepository.save(adminUser));
 
   }
 
   @Override
   public Header<AdminUserApiResponse> read(Long id) {
 
-    return adminUserRepository.findById(id)
+    return baseRepository.findById(id)
         .map(this::response)
         .orElseGet(() -> Header.ERROR("데이터 없음"));
 
@@ -48,7 +45,7 @@ public class AdminUserApiLogicService implements CrudInterface<AdminUserApiReque
 
     AdminUserApiRequest body = request.getData();
 
-    return adminUserRepository.findById(body.getId())
+    return baseRepository.findById(body.getId())
         .map(adminUser -> {
           adminUser
               .setAccount(body.getAccount())
@@ -63,7 +60,7 @@ public class AdminUserApiLogicService implements CrudInterface<AdminUserApiReque
 
           return adminUser;
         })
-        .map( adminUser -> adminUserRepository.save(adminUser))
+        .map( adminUser -> baseRepository.save(adminUser))
         .map(this::response)
         .orElseGet(() -> Header.ERROR("데이터 없음"));
 
@@ -73,9 +70,9 @@ public class AdminUserApiLogicService implements CrudInterface<AdminUserApiReque
   @Override
   public Header delete(Long id) {
 
-    return adminUserRepository.findById(id)
+    return baseRepository.findById(id)
         .map( adminUser -> {
-          adminUserRepository.delete(adminUser);
+          baseRepository.delete(adminUser);
           return Header.OK();
         })
         .orElseGet(() -> Header.ERROR("데이터 없음"));

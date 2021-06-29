@@ -12,13 +12,10 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 
 @Service
-public class ItemApiLogicService implements CrudInterface<ItemApiRequest, ItemApiResponse> {
+public class ItemApiLogicService extends BaseService<ItemApiRequest, ItemApiResponse,Item> {
 
   @Autowired
   private PartnerRepository partnerRepository;
-
-  @Autowired
-  private ItemRepository itemRepository;
 
   @Override
   public Header<ItemApiResponse> create(Header<ItemApiRequest> request) {
@@ -39,14 +36,14 @@ public class ItemApiLogicService implements CrudInterface<ItemApiRequest, ItemAp
 //    Item newItem = itemRepository.save(item);
 //    return response(newItem);
 
-    return response(itemRepository.save(item));
+    return response(baseRepository.save(item));
 
   }
 
   @Override
   public Header<ItemApiResponse> read(Long id) {
 
-    return itemRepository.findById(id)
+    return baseRepository.findById(id)
         .map( item -> response(item) )
         .orElseGet( () -> Header.ERROR("데이터 없음"));
 
@@ -57,7 +54,7 @@ public class ItemApiLogicService implements CrudInterface<ItemApiRequest, ItemAp
 
     ItemApiRequest itemApiRequest = request.getData();
 
-    return itemRepository.findById(itemApiRequest.getId())
+    return baseRepository.findById(itemApiRequest.getId())
         .map( item -> {
           item
               .setStatus(itemApiRequest.getStatus())
@@ -71,7 +68,7 @@ public class ItemApiLogicService implements CrudInterface<ItemApiRequest, ItemAp
           ;
           return item;
         })
-        .map( item -> itemRepository.save(item))
+        .map( item -> baseRepository.save(item))
         .map( updateItem -> response(updateItem))
         .orElseGet( () -> Header.ERROR("데이터 없음"));
 
@@ -80,9 +77,9 @@ public class ItemApiLogicService implements CrudInterface<ItemApiRequest, ItemAp
   @Override
   public Header delete(Long id) {
 
-    return itemRepository.findById(id)
+    return baseRepository.findById(id)
         .map( item -> {
-          itemRepository.delete(item);
+          baseRepository.delete(item);
           return Header.OK();
         }).orElseGet( () -> Header.ERROR("데이터 없음"));
 

@@ -10,10 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CategoryApiLogicService implements CrudInterface<CategoryApiRequest, CategoryApiResponse> {
-
-  @Autowired
-  private CategoryRepository categoryRepository;
+public class CategoryApiLogicService extends BaseService<CategoryApiRequest, CategoryApiResponse,Category> {
 
   @Override
   public Header<CategoryApiResponse> create(Header<CategoryApiRequest> request) {
@@ -25,13 +22,13 @@ public class CategoryApiLogicService implements CrudInterface<CategoryApiRequest
         .title(body.getTitle())
         .build();
 
-    return response(categoryRepository.save(category));
+    return response(baseRepository.save(category));
   }
 
   @Override
   public Header<CategoryApiResponse> read(Long id) {
 
-    return categoryRepository.findById(id)
+    return baseRepository.findById(id)
         .map(this::response)
         .orElseGet(() -> Header.ERROR("데이터 없음"));
 
@@ -42,7 +39,7 @@ public class CategoryApiLogicService implements CrudInterface<CategoryApiRequest
 
     CategoryApiRequest body = request.getData();
 
-    return categoryRepository.findById(body.getId())
+    return baseRepository.findById(body.getId())
         .map( category -> {
           category
               .setType(body.getType())
@@ -50,7 +47,7 @@ public class CategoryApiLogicService implements CrudInterface<CategoryApiRequest
 
           return category;
         })
-        .map( category -> response(categoryRepository.save(category)))
+        .map( category -> response(baseRepository.save(category)))
 //        .map( category -> categoryRepository.save(category))
 //        .map(this::response)
         .orElseGet(() -> Header.ERROR("데이터 없음"));
@@ -60,9 +57,9 @@ public class CategoryApiLogicService implements CrudInterface<CategoryApiRequest
   @Override
   public Header delete(Long id) {
 
-    return categoryRepository.findById(id)
+    return baseRepository.findById(id)
         .map( category -> {
-          categoryRepository.delete(category);
+          baseRepository.delete(category);
           return Header.OK();
         })
         .orElseGet(() -> Header.ERROR("데이터 없음"));
