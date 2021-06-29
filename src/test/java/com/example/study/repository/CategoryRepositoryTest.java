@@ -2,6 +2,7 @@ package com.example.study.repository;
 
 import com.example.study.StudyApplicationTests;
 import com.example.study.model.entity.Category;
+import com.example.study.model.enumclass.CategoryType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ public class CategoryRepositoryTest extends StudyApplicationTests {
 
   @Test
   public void create() {
-    String type = "COMPUTER";
+    CategoryType type = CategoryType.COMPUTER;
     String title = "컴퓨터";
     LocalDateTime createdAt = LocalDateTime.now();
     String createdBy = "AdminServer";
@@ -39,18 +40,18 @@ public class CategoryRepositoryTest extends StudyApplicationTests {
   public void read() {
 //    Optional<Category> optionalCategory = categoryRepository.findById(1L);
 
-    String type = "COMPUTER";
-    Optional<Category> optionalCategory = categoryRepository.findByType(type);
-    // select * from category where type = 'COMPUTER'
-
-    optionalCategory.ifPresent( c -> {
-
-      Assertions.assertEquals(c.getType(), type);
-
-      System.out.println(c.getId());
-      System.out.println(c.getType());
-      System.out.println(c.getTitle());
-    });
+//    String type = "COMPUTER";
+//    Optional<Category> optionalCategory = categoryRepository.findByType(type);
+//    // select * from category where type = 'COMPUTER'
+//
+//    optionalCategory.ifPresent( c -> {
+//
+//      Assertions.assertEquals(c.getType(), type);
+//
+//      System.out.println(c.getId());
+//      System.out.println(c.getType());
+//      System.out.println(c.getTitle());
+//    });
 
   }
 

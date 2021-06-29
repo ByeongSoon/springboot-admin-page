@@ -7,3 +7,4 @@
 ```
 docker run -d --name admindb -e MYSQL_ROOT_PASSWORD=1234 -e MYSQL_DATABASE=adminpage -p 3306:3306 mysql:5.7
 ```
+

@@ -2,6 +2,7 @@ package com.example.study.repository;
 
 import com.example.study.StudyApplicationTests;
 import com.example.study.model.entity.AdminUser;
+import com.example.study.model.enumclass.AdminRole;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ public class AdminIUserRepositoryTest extends StudyApplicationTests {
     adminUser.setAccount("AdminUser03");
     adminUser.setPassword("AdminUser03");
     adminUser.setStatus("REGISTERED");
-    adminUser.setRole("PARTNER");
+    adminUser.setRole(AdminRole.MASTER);
 //    adminUser.setCreatedAt(LocalDateTime.now());
 //    adminUser.setCreatedBy("AdminServer");
 
