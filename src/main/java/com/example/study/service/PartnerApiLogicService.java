@@ -8,9 +8,11 @@ import com.example.study.model.network.response.PartnerApiResponse;
 import com.example.study.repository.CategoryRepository;
 import com.example.study.repository.PartnerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class PartnerApiLogicService extends BaseService<PartnerApiRequest, PartnerApiResponse,Partner> {
@@ -104,4 +106,8 @@ public class PartnerApiLogicService extends BaseService<PartnerApiRequest, Partn
     return Header.OK(body);
   }
 
+  @Override
+  public Header<List<PartnerApiResponse>> search(Pageable pageable) {
+    return null;
+  }
 }

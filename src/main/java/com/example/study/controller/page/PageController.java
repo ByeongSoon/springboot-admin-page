@@ -20,6 +20,14 @@ public class PageController {
                 .addObject("code", "main")
                 ;
     }
+    // 고객관리 상세페이지에서 다시 Admin logo를 클릭하면 /pages/main 경로로 변경되므로 추가
+    @RequestMapping(path = {"/main"})
+    public ModelAndView mainIndex() {
+        return new ModelAndView("/pages/main")
+            .addObject("menuList", adminMenuService.getAdminMenu())
+            .addObject("code", "main")
+            ;
+    }
 
     @RequestMapping("/user")
     public ModelAndView user() {
