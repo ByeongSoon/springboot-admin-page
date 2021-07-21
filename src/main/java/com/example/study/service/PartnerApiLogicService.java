@@ -3,16 +3,19 @@ package com.example.study.service;
 import com.example.study.ifs.CrudInterface;
 import com.example.study.model.entity.Partner;
 import com.example.study.model.network.Header;
+import com.example.study.model.network.Pagination;
 import com.example.study.model.network.request.PartnerApiRequest;
 import com.example.study.model.network.response.PartnerApiResponse;
 import com.example.study.repository.CategoryRepository;
 import com.example.study.repository.PartnerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PartnerApiLogicService extends BaseService<PartnerApiRequest, PartnerApiResponse,Partner> {
@@ -37,7 +40,7 @@ public class PartnerApiLogicService extends BaseService<PartnerApiRequest, Partn
         .category(categoryRepository.getOne(body.getCategoryId()))
         .build();
 
-    return response(baseRepository.save(partner));
+    return Header.OK(response(baseRepository.save(partner)));
 
   }
 
@@ -46,6 +49,7 @@ public class PartnerApiLogicService extends BaseService<PartnerApiRequest, Partn
 
     return baseRepository.findById(id)
         .map(this::response)
+        .map(Header::OK)
         .orElseGet(() -> Header.ERROR("데이터 없음"));
 
   }
@@ -71,6 +75,7 @@ public class PartnerApiLogicService extends BaseService<PartnerApiRequest, Partn
           return partner;
         })
         .map( partner -> response(baseRepository.save(partner)))
+        .map(Header::OK)
         .orElseGet(() -> Header.ERROR("데이터 없음"));
 
   }
@@ -87,7 +92,7 @@ public class PartnerApiLogicService extends BaseService<PartnerApiRequest, Partn
 
   }
 
-  private Header<PartnerApiResponse> response(Partner partner) {
+  private PartnerApiResponse response(Partner partner) {
 
     PartnerApiResponse body = PartnerApiResponse.builder()
         .id(partner.getId())
@@ -103,12 +108,25 @@ public class PartnerApiLogicService extends BaseService<PartnerApiRequest, Partn
         .categoryId(partner.getCategory().getId())
         .build();
 
-    return Header.OK(body);
+    return body;
 
   }
 
   @Override
   public Header<List<PartnerApiResponse>> search(Pageable pageable) {
-    return null;
+    Page<Partner> partners = baseRepository.findAll(pageable);
+
+    List<PartnerApiResponse> partnerApiResponsesList = partners.stream()
+        .map(this::response)
+        .collect(Collectors.toList());
+
+    Pagination pagination = Pagination.builder()
+        .totalPage(partners.getTotalPages())
+        .totalElements(partners.getTotalElements())
+        .currentPage(partners.getNumber())
+        .currentElements(partners.getNumberOfElements())
+        .build();
+
+    return Header.OK(partnerApiResponsesList, pagination);
   }
 }

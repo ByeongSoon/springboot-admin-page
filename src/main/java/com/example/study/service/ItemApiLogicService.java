@@ -110,6 +110,15 @@ public class ItemApiLogicService extends BaseService<ItemApiRequest, ItemApiResp
 
   @Override
   public Header<List<ItemApiResponse>> search(Pageable pageable) {
+
+    // 1. findAll
+
+    // 2. List<Res>에 넣어주고
+
+    // 3. pagination 정보 추가
+
+    // 4. return Header.OK(data, pagination)
+
     return null;
   }
 }
