@@ -104,6 +104,7 @@ public class PartnerApiLogicService extends BaseService<PartnerApiRequest, Partn
         .build();
 
     return Header.OK(body);
+
   }
 
   @Override

@@ -101,7 +101,6 @@ public class UserApiLogicService extends BaseService<UserApiRequest, UserApiResp
     })
         .orElseGet( () -> Header.ERROR("데이터 없음"));
 
-
   }
 
   private UserApiResponse response(User user) {

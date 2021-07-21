@@ -66,7 +66,6 @@ public class AdminUserApiLogicService extends BaseService<AdminUserApiRequest, A
         .map(this::response)
         .orElseGet(() -> Header.ERROR("데이터 없음"));
 
-
   }
 
   @Override
@@ -78,7 +77,6 @@ public class AdminUserApiLogicService extends BaseService<AdminUserApiRequest, A
           return Header.OK();
         })
         .orElseGet(() -> Header.ERROR("데이터 없음"));
-
 
   }
 
@@ -97,6 +95,7 @@ public class AdminUserApiLogicService extends BaseService<AdminUserApiRequest, A
         .build();
 
     return Header.OK(body);
+
   }
 
   @Override

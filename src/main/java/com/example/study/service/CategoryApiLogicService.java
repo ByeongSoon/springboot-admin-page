@@ -26,6 +26,7 @@ public class CategoryApiLogicService extends BaseService<CategoryApiRequest, Cat
         .build();
 
     return response(baseRepository.save(category));
+
   }
 
   @Override
@@ -78,6 +79,7 @@ public class CategoryApiLogicService extends BaseService<CategoryApiRequest, Cat
         .build();
 
     return Header.OK(body);
+
   }
 
   @Override
