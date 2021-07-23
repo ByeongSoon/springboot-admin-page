@@ -53,12 +53,9 @@ public class UserApiLogicService extends BaseService<UserApiRequest, UserApiResp
     // id -> repository getOne, getById
     // user -> userApiResponse return
    return baseRepository.findById(id)
-        .map( user -> response(user)
-        )
+       .map( user -> response(user))
        .map( userApiResponse -> Header.OK(userApiResponse))
-        .orElseGet( () ->
-            Header.ERROR("데이터 없음")
-        );
+       .orElseGet( () -> Header.ERROR("데이터 없음"));
 
   }
 
@@ -124,6 +121,7 @@ public class UserApiLogicService extends BaseService<UserApiRequest, UserApiResp
 
   @Override
   public Header<List<UserApiResponse>> search(Pageable pageable) {
+
     Page<User> users = baseRepository.findAll(pageable);
 
     List<UserApiResponse> userApiResponseList = users.stream()

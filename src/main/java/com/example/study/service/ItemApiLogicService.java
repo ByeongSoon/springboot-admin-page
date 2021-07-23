@@ -3,15 +3,18 @@ package com.example.study.service;
 import com.example.study.ifs.CrudInterface;
 import com.example.study.model.entity.Item;
 import com.example.study.model.network.Header;
+import com.example.study.model.network.Pagination;
 import com.example.study.model.network.request.ItemApiRequest;
 import com.example.study.model.network.response.ItemApiResponse;
 import com.example.study.repository.ItemRepository;
 import com.example.study.repository.PartnerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ItemApiLogicService extends BaseService<ItemApiRequest, ItemApiResponse,Item> {
@@ -38,7 +41,7 @@ public class ItemApiLogicService extends BaseService<ItemApiRequest, ItemApiResp
 //    Item newItem = itemRepository.save(item);
 //    return response(newItem);
 
-    return response(baseRepository.save(item));
+    return Header.OK(response(baseRepository.save(item)));
 
   }
 
@@ -46,7 +49,8 @@ public class ItemApiLogicService extends BaseService<ItemApiRequest, ItemApiResp
   public Header<ItemApiResponse> read(Long id) {
 
     return baseRepository.findById(id)
-        .map( item -> response(item) )
+        .map(this::response)
+        .map(Header::OK)
         .orElseGet( () -> Header.ERROR("데이터 없음"));
 
   }
@@ -71,7 +75,8 @@ public class ItemApiLogicService extends BaseService<ItemApiRequest, ItemApiResp
           return item;
         })
         .map( item -> baseRepository.save(item))
-        .map( updateItem -> response(updateItem))
+        .map(this::response)
+        .map(Header::OK)
         .orElseGet( () -> Header.ERROR("데이터 없음"));
 
   }
@@ -87,11 +92,11 @@ public class ItemApiLogicService extends BaseService<ItemApiRequest, ItemApiResp
 
   }
 
-  private Header<ItemApiResponse> response(Item item) {
+  private ItemApiResponse response(Item item) {
 
     String statusTitle = item.getStatus().getTitle(); // 한글로 된 title 불러오는 법
 
-    ItemApiResponse body = ItemApiResponse.builder()
+    ItemApiResponse itemApiResponse = ItemApiResponse.builder()
         .id(item.getId())
         .status(item.getStatus())
         .name(item.getName())
@@ -104,21 +109,27 @@ public class ItemApiLogicService extends BaseService<ItemApiRequest, ItemApiResp
         .partnerId(item.getPartner().getId())
         .build();
 
-    return Header.OK(body);
+    return itemApiResponse;
 
   }
 
   @Override
   public Header<List<ItemApiResponse>> search(Pageable pageable) {
 
-    // 1. findAll
+    Page<Item> items = baseRepository.findAll(pageable);
 
-    // 2. List<Res>에 넣어주고
+    List<ItemApiResponse> itemApiResponseList = items.stream()
+        .map(this::response)
+        .collect(Collectors.toList());
 
-    // 3. pagination 정보 추가
+    Pagination pagination = Pagination.builder()
+        .totalPage(items.getTotalPages())
+        .totalElements(items.getTotalElements())
+        .currentPage(items.getNumber())
+        .currentElements(items.getNumberOfElements())
+        .build();
 
-    // 4. return Header.OK(data, pagination)
+    return Header.OK(itemApiResponseList, pagination);
 
-    return null;
   }
 }
