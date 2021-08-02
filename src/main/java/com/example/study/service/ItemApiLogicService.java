@@ -90,7 +90,7 @@ public class ItemApiLogicService extends BaseService<ItemApiRequest, ItemApiResp
 
   }
 
-  private ItemApiResponse response(Item item) {
+  public ItemApiResponse response(Item item) {
 
     String statusTitle = item.getStatus().getTitle(); // 한글로 된 title 불러오는 법
 
